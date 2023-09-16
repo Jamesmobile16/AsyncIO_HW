@@ -56,7 +56,8 @@ async def main():
         persons_coro = []
         for person_id in person_id_chunked:
             person_coro = get_people(person_id)
-            persons_coro.append(person_coro)
+            if person_coro is not None:
+                persons_coro.append(person_coro)
         people = await asyncio.gather(*persons_coro)
         insert_in_db_coro = insert_in_db(people)
         asyncio.create_task(insert_in_db_coro)
